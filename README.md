@@ -14,141 +14,70 @@ para desenvolver um programa que gerencie um sistema de inventário.
 
 ## :globe_with_meridians:	Rodar em ambiente virtual
 
-- Para utilizar o programa, abra o link do projeto hospedado no [OnlineGDB](https://www.onlinegdb.com/#)
-- 
+- Para utilizar o programa, abra o link do projeto hospedado em [OnlineGDB](https://onlinegdb.com/3yNQBvhQYM)
+- Para rodar o programa aperte o botão verde escrito "Run" acima do editor de texto
+<img width="304" height="94" alt="Screenshot 2025-11-14 203642" src="https://github.com/user-attachments/assets/c0c5e0c6-4c3f-4a41-9ad0-dba46a8aa971" />
 
-- Para rodar ele localmente, instale [SWI-Prolog](https://www.swi-prolog.org/download/stable) e [Visual Studio Code](https://code.visualstudio.com/download). 
+- Ou aperte a tecla f9 no teclado como atalho.
 
-### :globe_with_meridians:	VS Code
 
-Caso deseje utilizar o VS Code, durante a instalação do [SWI-Prolog](https://www.swi-prolog.org/download/stable) garanta que estejam selecionados:
-- [x]  Add swipl to the system PATH for current users
+## :runner: Utilização
 
- ou
+
+Ao abrir o projeto você terá acesso à três arquivos
+- main.hs
+  - Esse arquivo é o ponto inicial da aplicação, responsavel pela logica de Inicialização, Sincronização, e os funções de I/O
+- LogicaPura.hs
+  - Armazena funções puras de transação, opera em cima do estado atual do Inventario de acordo com os parametros da operação
+- Tipo.hs
+  - Define os tipos de dados utilizados ao decorrer da execução do programa 
+
+Na primeira execução do codido serão criados dois arquivos:
+
+- Auditoria.log
+  - Guarda todas as informações das operações feitas no sistema, tanto as realizadas com sucesso quanto as que falharam. Efetivamente um historico de operações
+- Inventario.dat
+  - Guarda o estado de todos os itens do sistema
  
-- [x]  Add swipl to the system PATH for all users 
-
- Caso contrario você deve adicionar na sua variavel de sistema Path:
-
-    
-    'C:\Program Files\swipl\bin' - (Caminho padrão da instalação)
-
-Se tiver alterado o local de instalação, encontre e adicione o caminho da pasta:
-    
-    '..\swipl\bin'
-
-
-Por ultimo, instale as extensões [Prolog](https://marketplace.visualstudio.com/items?itemName=rebornix.prolog) e [VSC-Prolog](https://marketplace.visualstudio.com/items?itemName=arthurwang.vsc-prolog) pelo link ou direto no VS Code pelo menu Extensions e reinicie o programa.
-
-
-## :hammer_and_wrench: Instalação
-
-Baixe o [código do projeto](https://github.com/GMizuguti/Sistema-Especialista-para-Recomendacao-de-Trilha-Academica.git) e descompacte o arquivo dentro de uma pasta. Seu diretorio deve ficar da seguinte forma:
-
-    Documentos
-    └── Sistema-Academico
-        ├── sistema.pl
-        ├── base_conhecimento.pl
-        ├── motor_de_inferencia.pl
-        ├── perfil_1.pl
-        ├── perfil_2.pl
-        ├── perfil_3.pl  
-        ├── perfil_4.pl
-        └── perfil_5.pl
-
-Para abrir o projeto, no VS Code siga os seguintes passos:
-      
-      File > Open Folder > {DIRETORIO_DO_PROJETO} > Select Folder
-
-O setup foi finalizado.
-
-
-## :runner: Realizar questionario Interativo
-
-
-Abra o terminal com o comando integrado do VS Code e execute:
-
+Esses dois arquivos de armazenamento são abertos no inicio de toda execução, mas caso sejam apagados ou seja a primeira vez rodando o programa, eles serão criados automaticamente.  
 
 ```javascript
-swipl sistema.pl
+Inventário não encontrado. Criando novo.
+Comandos disponíveis:
+  add <id> <nome> <categoria> <quantidade>    -- Adiciona um item
+  remove <id> <quantidade>                    -- Reduz a quantidade unitaria de um item
+  update <id> <nome> <categoria> <quantidade> -- Atualiza um item (pelo id)
+  report                                      -- Gera relatórios do inventário e logs
+  sair                                        -- Encerra o programa
 ```
 
-Para iniciar o questionario:
+Para executar um comando, clique no terminal, digite o comando seguido de seus argumentos como no exemplo abaixo e aperte enter para enviar
 
-```javascript
-iniciar.
+```haskell
+> add 4 MSI-Cyborg Notebook-Gamer 14
+-- add <id> <nome> <categoria> <quantidade>
 ```
 
-Com o questionario em andamento, o sistema ira avançar para a proxima questão assim que a atual for respondida. Para responder as perguntas, basta digitar "s." ou "n." (sem as aspas) e apertar enter.
-```javascript
-1. Você é uma pessoa sistemática? (s/n) :
+Então você recebera uma confirmação do estado final do seu comando, tanto se houve exito ou não, acompanhado do motivo
+
+Sucesso na inserção:
+```haskell
+[Add] Adicionado item: Item {itemID = "00001", nome = "IdeaPad-S145", categoria = "Notebook", quantidade = 90}
+Inventário atual:
+- ID: 00001, Nome: IdeaPad-S145, Cat: Notebook, Qtde: 90
 ```
-```javascript
-1. Você é uma pessoa sistemática? (s/n) : n.
-```
+Falha no update:
+```haskell
+> update 731282 MSI-Cyborg Notebook-Gamer 14
 
-Ao final das 14 questões, serão mostrados as três trilhas de especialização que mais combinam com o perfil do usuário.
-
-<details>
-
-<summary>:bangbang:	 Resultado do Questionario :bangbang:</summary>
-
-
-```javascript
--------As 3 Trilhas mais Recomendadas para o seu perfil-------
-
--------Primeiro lugar-------
-
-1) Desenvolvimento de Jogos! Crie experiencias interativas em 2D e 3D, unindo criatividade, design e programacao! (15 pontos)
-Perguntas que te trouxeram a essa trilha:
-
-1. Voce e uma pessoa sistematica? (s/n) -> s
-
-...
-
-14. Programar e estudar as minuncias de assembly soa como entretenimento? (s/n) -> s
-
-
-
--------Segundo lugar-------
-
-2) Gestao de Projetos! Planeje, organize e lidere equipes para alcancar resultados de forma eficiente! (9 pontos)
-
-
--------Terceiro lugar-------
-
- 3) Neurotecnologia! Explore a interface entre o cerebro humano e dispositivos tecnologicos para saude e inovacao! (8 pontos)
-```
-</details>
-
-Para encerrar o processo, digite o seguinte comando e aperte enter.
-
-```javascript
-halt.
+FALHA NA OPERACAO ATUALIZAR
+O id deve ter no máximo 5 caracteres.
+Tentativa: de entradaItem {itemID = "731282", nome = "MSI-Cyborg", categoria = "Laptop", quantidade = 14}
 ```
 
-## :construction:	Arquivos de Teste
-
-Estão disponiveis os seguintes arquivos de teste:
-  
-- perfil_1.pl
-- perfil_2.pl
-- perfil_3.pl
-- perfil_4.pl
-- perfil_5.pl
-
-Cada arquivo contém as respostas predefinidas de 5 perfis com afinidades à trilhas distintas.
-
-Para executar esses arquivos rode o seguinte comando
-```bash
-iniciar_teste_perfil(ARQUIVO).
-```
-Substitua ARQUIVO pelo nome do arquivo desejado 
-
-O resto da execução permanece a mesma do Questionario Interarivo
-
-> [!WARNING]
-> Os arquivos perfil_1.pl ... perfil_5.pl devem estar no [mesmo diretorio](#hammer_and_wrench-instalação) que o arquivo sistema.pl!
+E você pode conferir a persistencia dos dados nos arquivos mesmo após o encerramento do programa abrindo Inventario.dat e Auditoria.log
+<img width="1180" height="102" alt="Screenshot 2025-11-14 212729" src="https://github.com/user-attachments/assets/1579b90e-6fe7-4f70-9e75-c8bb70b37466" />
+<img width="1677" height="102" alt="Screenshot 2025-11-14 213156" src="https://github.com/user-attachments/assets/79ce7d42-33e7-48ec-b846-f17e1ec5b39f" />
 
 ## :school: Instituiçao
 
